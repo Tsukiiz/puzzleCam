@@ -16,6 +16,15 @@ function main(){
         VIDEO.play();
 
         VIDEO.onloadeddata = function(){
+            let resizer = SCALER*
+                Math.min(
+                    window.innerWidth/VIDEO.videoWidth,
+                    window.innerHeight/VIDEO.videoHeight
+                );
+            SIZE.width = resizer * VIDEO.videoWidth;
+            SIZE.height = resizer * VIDEO.videoHeight;
+            SIZE.x = window.innerWidth/2-SIZE.width/2;
+            SIZE.y = window.innerHeight/2-SIZE.height/2;
             updateCanvas();
         }
     }).catch(function(err){
@@ -24,6 +33,6 @@ function main(){
 }
 
 function updateCanvas(){
-    CONTEXT.drawImage(VIDEO,0,0);
+    CONTEXT.drawImage(VIDEO, SIZE.x, SIZE.y, SIZE.width, SIZE.height);
     window.requestAnimationFrame(updateCanvas);
 }
