@@ -2,7 +2,8 @@ let VIDEO = null;
 let CANVAS = null;
 let CONTEXT = null;
 let SCALER = 0.8;
-let SIZE = {x:0, y:0, width:0, heigh:0};
+let SIZE = {x:0, y:0, width:0, height:0, rows:3, columns:3};
+let PIECES = [];
 
 function main(){
     CANVAS = document.getElementById("myCanvas");
@@ -16,7 +17,7 @@ function main(){
 
         VIDEO.onloadeddata = function(){
             handleResize();
-            window.addEventListener('resize',handleResize);
+            // window.addEventListener('resize',handleResize);
             updateCanvas();
         }
     }).catch(function(err){
@@ -40,5 +41,37 @@ function handleResize(){
 
 function updateCanvas(){
     CONTEXT.drawImage(VIDEO, SIZE.x, SIZE.y, SIZE.width, SIZE.height);
+    for(let i=0;i<PIECES.length;i++){
+        PIECES[i].draw(CONTEXT);
+    }
     window.requestAnimationFrame(updateCanvas);
 }
+
+
+function initializePieces(){
+    PIECES = [];
+    for (let i=0; i<SIZE.columns; i++){
+        for(let j=0; j<SIZE.rows; j++){
+            PIECES.push(new Piece(i,j));
+            console.log(j);
+        }
+    }
+}
+
+class Piece{
+    constructor(rowIndex, colIndex){
+        this.rowIndex = rowIndex;
+        this.colIndex = colIndex;
+        this.x = SIZE.x + SIZE.width*this.colIndex/SIZE.columns;
+        this.y = SIZE.y + SIZE.height*this.rowIndex/SIZE.rows;
+        this.width = SIZE.width/SIZE.columns;
+        this.height = SIZE.height/SIZE.rows;
+        
+    }
+    draw(context){
+        context.beginPath();
+        context.rect(this.x, this.y, this.width, this.height);
+        context.stroke();
+    }
+}
+
