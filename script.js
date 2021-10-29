@@ -38,6 +38,11 @@ function addEventListeners(){
 function onMouseDown(evt){
     SELECTED_PIECE = getPressedPiece(evt);
     if(SELECTED_PIECE != null){
+        const index = PIECES.indexOf(SELECTED_PIECE);
+        if(index>-1){
+            PIECES.splice(index,1);
+            PIECES.push(SELECTED_PIECE);
+        }
         SELECTED_PIECE.offset={
             x:evt.x-SELECTED_PIECE.x,
             y:evt.y-SELECTED_PIECE.y
