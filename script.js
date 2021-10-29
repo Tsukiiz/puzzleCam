@@ -65,7 +65,7 @@ function onMouseUp (evt){
 }
 
 function getPressedPiece(loc){
-    for(let i=0; i<PIECES.length; i++){
+    for(let i=PIECES.length-1; i>=0; i--){
         if(loc.x>PIECES[i].x && loc.x<PIECES[i].x+PIECES[i].width && 
             loc.y>PIECES[i].y && loc.y<PIECES[i].y+PIECES[i].height){
                 return PIECES[i];
