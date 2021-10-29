@@ -18,6 +18,7 @@ function main(){
         VIDEO.onloadeddata = function(){
             handleResize();
             // window.addEventListener('resize',handleResize);
+            initializePieces(SIZE.rows, SIZE.columns);
             updateCanvas();
         }
     }).catch(function(err){
@@ -40,7 +41,12 @@ function handleResize(){
 }
 
 function updateCanvas(){
-    // CONTEXT.drawImage(VIDEO, SIZE.x, SIZE.y, SIZE.width, SIZE.height);
+    CONTEXT.clearRect(0,0,CANVAS.width,CANVAS.height);
+    CONTEXT.globalAlpha = 0.5;
+    CONTEXT.drawImage(VIDEO, 
+        SIZE.x, SIZE.y, 
+        SIZE.width, SIZE.height);
+    CONTEXT.globalAlpha = 1;
     for(let i=0;i<PIECES.length;i++){
         PIECES[i].draw(CONTEXT);
     }
@@ -48,7 +54,9 @@ function updateCanvas(){
 }
 
 
-function initializePieces(){
+function initializePieces(rows,cols){
+    SIZE.rows = rows;
+    SIZE.columns = cols;
     PIECES = [];
     for (let i=0; i<SIZE.columns; i++){
         for(let j=0; j<SIZE.rows; j++){
@@ -57,6 +65,18 @@ function initializePieces(){
         }
     }
 }
+
+function randomizePieces(){
+    for(let i=0;i<PIECES.length;i++){
+        let loc={ 
+            x:Math.random()*CANVAS.width-PIECES[i].width, 
+            y:Math.random()*CANVAS.height-PIECES[i].height}
+        PIECES[i].x = loc.x;
+        PIECES[i].y = loc.y;
+
+    }
+}
+
 
 class Piece{
     constructor(rowIndex, colIndex){
