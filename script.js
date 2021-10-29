@@ -40,7 +40,7 @@ function handleResize(){
 }
 
 function updateCanvas(){
-    CONTEXT.drawImage(VIDEO, SIZE.x, SIZE.y, SIZE.width, SIZE.height);
+    // CONTEXT.drawImage(VIDEO, SIZE.x, SIZE.y, SIZE.width, SIZE.height);
     for(let i=0;i<PIECES.length;i++){
         PIECES[i].draw(CONTEXT);
     }
@@ -70,6 +70,15 @@ class Piece{
     }
     draw(context){
         context.beginPath();
+        context.drawImage(VIDEO,
+            this.colIndex*VIDEO.videoWidth/SIZE.columns,
+            this.rowIndex*VIDEO.videoHeight/SIZE.rows,
+            VIDEO.videoWidth/SIZE.columns,
+            VIDEO.videoHeight/SIZE.rows,
+            this.x,
+            this.y,
+            this.width,
+            this.height);
         context.rect(this.x, this.y, this.width, this.height);
         context.stroke();
     }
